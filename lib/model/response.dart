@@ -20,12 +20,18 @@ class Show {
   final String name;
   final String summary;
   final Images? image;
+  final String language;
+  final Rating? rating;
+  final List<String> genres;
 
   Show({
     required this.id,
     required this.name,
     required this.summary,
     this.image,
+    required this.language,
+    this.rating,
+    required this.genres,
   });
 
   factory Show.fromJson(Map<String, dynamic> json) {
@@ -34,6 +40,23 @@ class Show {
       name: json['name'] ?? '',
       summary: json['summary'] ?? '',
       image: json['image'] != null ? Images.fromJson(json['image']) : null,
+      language: json['language'] ?? 'Unknown',
+      rating: json['rating'] != null ? Rating.fromJson(json['rating']) : null,
+      genres: List<String>.from(json['genres'] ?? [""]),
+    );
+  }
+}
+
+class Rating {
+  final double? average;
+
+  Rating({
+    this.average,
+  });
+
+  factory Rating.fromJson(Map<String, dynamic> json) {
+    return Rating(
+      average: json['average']?.toDouble(),
     );
   }
 }

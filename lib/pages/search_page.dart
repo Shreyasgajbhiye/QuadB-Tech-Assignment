@@ -38,6 +38,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget build(BuildContext context) {
+    var mq = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppColor.bg_color,
       appBar: AppBar(
@@ -57,27 +58,24 @@ class _SearchPageState extends State<SearchPage> {
                 hintText: 'Search TV Shows...',
                 prefixIcon: Icon(Icons.search),
                 filled: true,
-                fillColor: Colors.white, 
+                fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                   borderSide: BorderSide(
-                    color: _focusNode.hasFocus
-                        ? Colors.red
-                        : Colors.grey, 
+                    color: _focusNode.hasFocus ? Colors.red : Colors.grey,
                     width: 2.0,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                   borderSide: BorderSide(
-                    color: Colors.red, 
+                    color: Colors.red,
                     width: 2.0,
                   ),
                 ),
               ),
               style: TextStyle(
-                color:
-                    Colors.black, 
+                color: Colors.black,
               ),
               onChanged: (value) {
                 controller.searchQuery.value = value;
@@ -88,7 +86,29 @@ class _SearchPageState extends State<SearchPage> {
           Expanded(
             child: Obx(
               () => controller.isLoading.value
-                  ? Center(child: CircularProgressIndicator())
+                  ? Center(
+                      child: Container(
+                      height: mq.height * 0.35,
+                      width: double.infinity,
+                      color: Colors.black12,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            color: Colors.red,
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            'Searching Movies...',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: mq.width * 0.045,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ))
                   : ListView.builder(
                       itemCount: controller.searchResults.length,
                       itemBuilder: (context, index) {
